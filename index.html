@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - CarRent</title>
+    
+    <style>
+    /* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+    --secondary: #64748b;
+    --success: #10b981;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --info: #3b82f6;
+    --light: #f8fafc;
+    --dark: #1e293b;
+    --gray: #94a3b8;
+    --border: #e2e8f0;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --transition: all 0.3s ease;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--dark);
+    background-color: #f1f5f9;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Navigation */
+.navbar {
+    background-color: white;
+    box-shadow: var(--shadow);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-logo h2 {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: var(--secondary);
+    font-weight: 500;
+    transition: var(--transition);
+    padding: 0.5rem 0;
+    position: relative;
+}
+
+.nav-link:hover {
+    color: var(--primary);
+}
+
+.nav-link.active {
+    color: var(--primary);
+}
+
+.nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--primary);
+}
+
+/* Main Content */
+main {
+    flex: 1;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+/* Auth Section */
+.auth-section {
+    padding: 2rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 200px);
+}
+
+.auth-container {
+    background-color: white;
+    border-radius: 0.75rem;
+    box-shadow: var(--shadow);
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 600px;
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.auth-header h1 {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 0.5rem;
+}
+
+.auth-header p {
+    color: var(--secondary);
+}
+
+/* Form Styles */
+.auth-form {
+    width: 100%;
+}
+
+.form-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.form-row .form-group {
+    flex: 1;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--dark);
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 0.375rem;
+    font-size: 1rem;
+    transition: var(--transition);
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.form-group small {
+    display: block;
+    margin-top: 0.25rem;
+    color: var(--secondary);
+    font-size: 0.75rem;
+}
+
+.input-error {
+    border-color: var(--danger) !important;
+}
+
+.error-message {
+    color: var(--danger);
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+    display: none;
+}
+
+.btn {
+    display: block;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 0.375rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    text-align: center;
+    text-decoration: none;
+}
+
+.btn:hover {
+    background-color: var(--primary-dark);
+}
+
+.btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.btn-full {
+    width: 100%;
+}
+
+.auth-footer {
+    text-align: center;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+}
+
+.auth-footer p {
+    color: var(--secondary);
+    font-size: 0.875rem;
+}
+
+.auth-footer a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.auth-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Alert Styles */
+.alert {
+    padding: 0.75rem 1rem;
+    margin-bottom: 1.5rem;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    display: none;
+}
+
+.alert-success {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: var(--success);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.alert-info {
+    background-color: rgba(59, 130, 246, 0.1);
+    color: var(--info);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.alert-warning {
+    background-color: rgba(245, 158, 11, 0.1);
+    color: var(--warning);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.alert-danger {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: var(--danger);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+/* Footer */
+.footer {
+    background-color: var(--dark);
+    color: white;
+    box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.05);
+    margin-top: auto;
+}
+
+.footer .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    padding: 3rem 0;
+}
+
+.footer-section h3,
+.footer-section h4 {
+    color: var(--dark);
+    margin-bottom: 1rem;
+}
+
+.footer-section h3 {
+    font-size: 1.5rem;
+    color: var(--primary);
+}
+
+.footer-section p {
+    color: var(--secondary);
+    margin-bottom: 0.5rem;
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section ul li {
+    margin-bottom: 0.5rem;
+}
+
+.footer-section ul li a {
+    color: var(--secondary);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.footer-section ul li a:hover {
+    color: var(--primary);
+}
+
+.footer-bottom {
+    text-align: center;
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--border);
+    color: var(--secondary);
+    font-size: 0.875rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .nav-container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .nav-menu {
+        gap: 1.5rem;
+    }
+    
+    .auth-container {
+        padding: 2rem 1.5rem;
+    }
+    
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+    
+    .footer-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar {
+        padding: 0.75rem 0;
+    }
+    
+    .nav-menu {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+    
+    .auth-section {
+        padding: 1.5rem 0;
+    }
+    
+    .auth-header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .auth-container {
+        padding: 1.5rem;
+    }
+}
+</style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>CarRent</h2>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="login.html" class="nav-link">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link active">Register</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <section class="auth-section">
+            <div class="container">
+                <div class="auth-container">
+                    <div class="auth-header">
+                        <h1>Create Account</h1>
+                        <p>Join CarRent and start your journey</p>
+                    </div>
+
+                    <div id="alert-message" class="alert" style="display: none;"></div>
+
+                    <form id="register-form" class="auth-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName">First Name *</label>
+                                <input type="text" id="firstName" name="firstName" required>
+                                <div id="firstName-error" class="error-message">Please enter your first name</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Last Name *</label>
+                                <input type="text" id="lastName" name="lastName" required>
+                                <div id="lastName-error" class="error-message">Please enter your last name</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required>
+                            <div id="email-error" class="error-message">Please enter a valid email address</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Phone Number *</label>
+                            <input type="tel" id="phone" name="phone" required>
+                            <div id="phone-error" class="error-message">Please enter a valid phone number</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password">Password *</label>
+                            <input type="password" id="password" name="password" required minlength="6">
+                            <small>Password must be at least 6 characters long</small>
+                            <div id="password-error" class="error-message">Password must be at least 6 characters</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirm Password *</label>
+                            <input type="password" id="confirmPassword" name="confirmPassword" required>
+                            <div id="confirmPassword-error" class="error-message">Passwords do not match</div>
+                        </div>
+
+                    
+
+                        <button type="submit" class="btn btn-primary btn-full" id="register-btn">Create Account</button>
+
+                        <div class="auth-footer">
+                            <p>Already have an account? <a href="login.html" >Sign in</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>CarRent</h3>
+                    <p>Your trusted car rental partner</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="cars.html">Cars</a></li>
+                        <li><a href="login.html">Login</a></li>
+                        <li><a href="index.html">Register</a></li>
+                    </ul>
+                </div>
+               <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p>Email: panneer.v.vtr@gmail.com</p>
+                    <p>Phone: +91 9360702428</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 CarRent. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // In-memory storage for artifacts (since localStorage is not supported)
+        let memoryStorage = {};
+
+        // Storage functions that work in both environments
+        function setStorageItem(key, value) {
+            try {
+                if (typeof localStorage !== 'undefined') {
+                    localStorage.setItem(key, value);
+                } else {
+                    memoryStorage[key] = value;
+                }
+            } catch (e) {
+                memoryStorage[key] = value;
+            }
+        }
+
+        function getStorageItem(key) {
+            try {
+                if (typeof localStorage !== 'undefined') {
+                    return localStorage.getItem(key);
+                } else {
+                    return memoryStorage[key] || null;
+                }
+            } catch (e) {
+                return memoryStorage[key] || null;
+            }
+        }
+
+        // Initialize with demo users
+        function initializeStorage() {
+            const existingUsers = getStorageItem('carrent_users');
+            if (!existingUsers) {
+                const defaultUsers = [
+                    {
+                        id: 'demo1',
+                        firstName: "Demo",
+                        lastName: "User",
+                        email: "demo@carrent.com",
+                        password: "demo123",
+                        phone: "1234567890",
+                        dateOfBirth: "1990-01-01",
+                        licenseNumber: "DEMO123456",
+                        newsletter: false,
+                        registrationDate: new Date().toISOString()
+                    },
+                    {
+                        id: 'admin1',
+                        firstName: "Admin",
+                        lastName: "User",
+                        email: "admin@carrent.com",
+                        password: "admin123",
+                        phone: "9876543210",
+                        dateOfBirth: "1985-01-01",
+                        licenseNumber: "ADMIN123456",
+                        newsletter: false,
+                        registrationDate: new Date().toISOString()
+                    }
+                ];
+                setStorageItem('carrent_users', JSON.stringify(defaultUsers));
+            }
+        }
+
+        // User management functions
+        function getRegisteredUsers() {
+            try {
+                const users = getStorageItem('carrent_users');
+                return users ? JSON.parse(users) : [];
+            } catch (e) {
+                console.error('Error loading users:', e);
+                return [];
+            }
+        }
+
+        function saveUser(user) {
+            try {
+                const users = getRegisteredUsers();
+                users.push(user);
+                setStorageItem('carrent_users', JSON.stringify(users));
+                console.log('User saved successfully:', user.email);
+                return true;
+            } catch (e) {
+                console.error('Error saving user:', e);
+                return false;
+            }
+        }
+
+        function emailExists(email) {
+            const users = getRegisteredUsers();
+            return users.some(user => user.email.toLowerCase() === email.toLowerCase());
+        }
+
+        function switchToLogin() {
+            // In a real app, this would navigate to login page
+            alert('In a real app, this would navigate to the login page. For this demo, please use the login page artifact.');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize storage with demo users
+            initializeStorage();
+
+            const registerForm = document.getElementById('register-form');
+            const alertMessage = document.getElementById('alert-message');
+            const registerBtn = document.getElementById('register-btn');
+            
+            // Get all input fields
+            const inputs = {
+                firstName: document.getElementById('firstName'),
+                lastName: document.getElementById('lastName'),
+                email: document.getElementById('email'),
+                phone: document.getElementById('phone'),
+                password: document.getElementById('password'),
+                confirmPassword: document.getElementById('confirmPassword'),
+                dateOfBirth: document.getElementById('dateOfBirth'),
+                licenseNumber: document.getElementById('licenseNumber'),
+                terms: document.getElementById('terms'),
+                newsletter: document.getElementById('newsletter')
+            };
+            
+            // Show alert message
+            function showAlert(message, type) {
+                alertMessage.textContent = message;
+                alertMessage.className = `alert alert-${type}`;
+                alertMessage.style.display = 'block';
+                
+                // Auto hide after 5 seconds for error messages
+                if (type === 'error') {
+                    setTimeout(() => {
+                        alertMessage.style.display = 'none';
+                    }, 5000);
+                }
+            }
+            
+            // Show loading state
+            function showLoading() {
+                registerBtn.disabled = true;
+                registerBtn.innerHTML = '<span class="spinner"></span>Creating Account...';
+            }
+            
+            // Hide loading state
+            function hideLoading() {
+                registerBtn.disabled = false;
+                registerBtn.innerHTML = 'Create Account';
+            }
+            
+            // Validation functions
+            function showError(input, errorId, message) {
+                const errorElement = document.getElementById(errorId);
+                input.classList.add('input-error');
+                errorElement.textContent = message;
+                errorElement.style.display = 'block';
+            }
+            
+            function clearError(input, errorId) {
+                const errorElement = document.getElementById(errorId);
+                input.classList.remove('input-error');
+                errorElement.style.display = 'none';
+            }
+            
+            function validateName(input, errorId, fieldName) {
+                const value = input.value.trim();
+                if (!value) {
+                    showError(input, errorId, `Please enter your ${fieldName.toLowerCase()}`);
+                    return false;
+                } else if (value.length < 2) {
+                    showError(input, errorId, `${fieldName} must be at least 2 characters`);
+                    return false;
+                } else if (!/^[a-zA-Z\s]+$/.test(value)) {
+                    showError(input, errorId, `${fieldName} can only contain letters and spaces`);
+                    return false;
+                }
+                clearError(input, errorId);
+                return true;
+            }
+            
+            function validateEmail() {
+                const email = inputs.email.value.trim();
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                
+                if (!email) {
+                    showError(inputs.email, 'email-error', 'Please enter your email address');
+                    return false;
+                } else if (!emailRegex.test(email)) {
+                    showError(inputs.email, 'email-error', 'Please enter a valid email address');
+                    return false;
+                } else if (emailExists(email)) {
+                    showError(inputs.email, 'email-error', 'This email is already registered');
+                    return false;
+                }
+                clearError(inputs.email, 'email-error');
+                return true;
+            }
+            
+            function validatePhone() {
+                const phone = inputs.phone.value.trim();
+                const phoneRegex = /^[\+]?[\d\s\-\(\)]{10,}$/;
+                
+                if (!phone) {
+                    showError(inputs.phone, 'phone-error', 'Please enter your phone number');
+                    return false;
+                } else if (!phoneRegex.test(phone) || phone.replace(/\D/g, '').length < 10) {
+                    showError(inputs.phone, 'phone-error', 'Please enter a valid phone number (at least 10 digits)');
+                    return false;
+                }
+                clearError(inputs.phone, 'phone-error');
+                return true;
+            }
+            
+            function validatePassword() {
+                const password = inputs.password.value;
+                
+                if (!password) {
+                    showError(inputs.password, 'password-error', 'Please enter a password');
+                    return false;
+                } else if (password.length < 6) {
+                    showError(inputs.password, 'password-error', 'Password must be at least 6 characters');
+                    return false;
+                }
+                clearError(inputs.password, 'password-error');
+                return true;
+            }
+            
+            function validateConfirmPassword() {
+                const password = inputs.password.value;
+                const confirmPassword = inputs.confirmPassword.value;
+                
+                if (!confirmPassword) {
+                    showError(inputs.confirmPassword, 'confirmPassword-error', 'Please confirm your password');
+                    return false;
+                } else if (password !== confirmPassword) {
+                    showError(inputs.confirmPassword, 'confirmPassword-error', 'Passwords do not match');
+                    return false;
+                }
+                clearError(inputs.confirmPassword, 'confirmPassword-error');
+                return true;
+            }
+            
+            function validateDateOfBirth() {
+                const dateOfBirth = inputs.dateOfBirth.value;
+                
+                if (!dateOfBirth) {
+                    showError(inputs.dateOfBirth, 'dateOfBirth-error', 'Please enter your date of birth');
+                    return false;
+                }
+                
+                const birthDate = new Date(dateOfBirth);
+                const today = new Date();
+                let age = today.getFullYear() - birthDate.getFullYear();
+                const monthDiff = today.getMonth() - birthDate.getMonth();
+                
+                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                    age--;
+                }
+                
+                if (age < 18) {
+                    showError(inputs.dateOfBirth, 'dateOfBirth-error', 'You must be at least 18 years old to register');
+                    return false;
+                } else if (age > 100) {
+                    showError(inputs.dateOfBirth, 'dateOfBirth-error', 'Please enter a valid date of birth');
+                    return false;
+                }
+                
+                clearError(inputs.dateOfBirth, 'dateOfBirth-error');
+                return true;
+            }
+            
+            function validateLicense() {
+                const license = inputs.licenseNumber.value.trim();
+                
+                if (!license) {
+                    showError(inputs.licenseNumber, 'licenseNumber-error', 'Please enter your driver\'s license number');
+                    return false;
+                } else if (license.length < 5) {
+                    showError(inputs.licenseNumber, 'licenseNumber-error', 'License number must be at least 5 characters');
+                    return false;
+                }
+                clearError(inputs.licenseNumber, 'licenseNumber-error');
+                return true;
+            }
+            
+            function validateTerms() {
+                if (!inputs.terms.checked) {
+                    showError(inputs.terms, 'terms-error', 'You must agree to the terms and conditions');
+                    return false;
+                }
+                clearError(inputs.terms, 'terms-error');
+                return true;
+            }
+            
+            // Add real-time validation listeners
+            inputs.firstName.addEventListener('blur', () => validateName(inputs.firstName, 'firstName-error', 'First name'));
+            inputs.lastName.addEventListener('blur', () => validateName(inputs.lastName, 'lastName-error', 'Last name'));
+            inputs.email.addEventListener('blur', validateEmail);
+            inputs.phone.addEventListener('blur', validatePhone);
+            inputs.password.addEventListener('blur', validatePassword);
+            inputs.confirmPassword.addEventListener('blur', validateConfirmPassword);
+            inputs.dateOfBirth.addEventListener('blur', validateDateOfBirth);
+            inputs.licenseNumber.addEventListener('blur', validateLicense);
+            
+            // Clear errors on input
+            Object.keys(inputs).forEach(key => {
+                if (inputs[key].type !== 'checkbox') {
+                    inputs[key].addEventListener('input', function() {
+                        if (this.classList.contains('input-error')) {
+                            const errorElement = document.getElementById(key + '-error');
+                            if (errorElement && errorElement.style.display === 'block') {
+                                // Re-validate the field
+                                switch(key) {
+                                    case 'firstName':
+                                        validateName(this, key + '-error', 'First name');
+                                        break;
+                                    case 'lastName':
+                                        validateName(this, key + '-error', 'Last name');
+                                        break;
+                                    case 'email':
+                                        validateEmail();
+                                        break;
+                                    case 'phone':
+                                        validatePhone();
+                                        break;
+                                    case 'password':
+                                        validatePassword();
+                                        break;
+                                    case 'confirmPassword':
+                                        validateConfirmPassword();
+                                        break;
+                                    case 'dateOfBirth':
+                                        validateDateOfBirth();
+                                        break;
+                                    case 'licenseNumber':
+                                        validateLicense();
+                                        break;
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+            
+            // Form submission handler
+            registerForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Validate all fields
+                const validations = [
+                    validateName(inputs.firstName, 'firstName-error', 'First name'),
+                    validateName(inputs.lastName, 'lastName-error', 'Last name'),
+                    validateEmail(),
+                    validatePhone(),
+                    validatePassword(),
+                    validateConfirmPassword(),
+                    validateDateOfBirth(),
+                    validateLicense(),
+                    validateTerms()
+                ];
+                
+                const isValid = validations.every(v => v === true);
+                
+                if (isValid) {
+                    showLoading();
+                    
+                    // Simulate registration delay
+                    setTimeout(() => {
+                        const newUser = {
+                            id: Date.now().toString(),
+                            firstName: inputs.firstName.value.trim(),
+                            lastName: inputs.lastName.value.trim(),
+                            email: inputs.email.value.trim().toLowerCase(),
+                            phone: inputs.phone.value.trim(),
+                            password: inputs.password.value,
+                            dateOfBirth: inputs.dateOfBirth.value,
+                            licenseNumber: inputs.licenseNumber.value.trim(),
+                            newsletter: inputs.newsletter.checked,
+                            registrationDate: new Date().toISOString()
+                        };
+                        
+                        const saved = saveUser(newUser);
+                        hideLoading();
+                        
+                        if (saved) {
+                            showAlert(`Registration successful! Account created for ${newUser.email}. You can now use these credentials to login.`, 'success');
+                            
+                            // Reset form
+                            registerForm.reset();
+                            
+                            console.log('User registered:', newUser);
+                            console.log('All users now:', getRegisteredUsers());
+                        } else {
+                            showAlert('Registration failed. Please try again.', 'error');
+                        }
+                    }, 1500);
+                } else {
+                    showAlert('Please correct the errors above and try again.', 'error');
+                }
+            });
+            
+            // Show existing users count
+            const userCount = getRegisteredUsers().length;
+            if (userCount > 0) {
+                showAlert(`${userCount} users already in system (including demo accounts). Create your account to join them!`, 'info');
+            }
+        });
+    </script>
+</body>
+</html>
