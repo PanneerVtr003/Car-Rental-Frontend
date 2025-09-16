@@ -408,6 +408,13 @@ body {
     .hero-buttons {
         justify-content: center;
     }
+    .cars-preview {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 2fr));
+            }
+            .feature-card{
+                width: 500px;
+                margin-left: 18%;
+            }
 }
 
 @media (max-width: 768px) {
@@ -443,15 +450,7 @@ body {
     }
 }
 
-@media (max-width: 769px) {
-     .cars-preview {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 2fr));
-            }
-            .feature-card{
-                width: 500px;
-                margin-left: 18%;
-            }
-}
+
 @media (max-width: 426px) {
      .car-card img{
             width: 100%;
@@ -664,3 +663,4 @@ document.addEventListener('DOMContentLoaded', function() {
     <script src="script.js"></script>
 </body>
 </html>
+
