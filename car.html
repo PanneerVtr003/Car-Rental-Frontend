@@ -20,6 +20,7 @@
             --gray: #94a3b8;
             --border: #e2e8f0;
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
             --transition: all 0.3s ease;
         }
 
@@ -37,10 +38,6 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-        }
-
-        body.no-scroll {
-            overflow: hidden;
         }
 
         /* Navigation */
@@ -101,7 +98,7 @@
         }
 
         .car-details {
-            padding: 100px 1.5rem 5rem;
+            padding: 2rem 1.5rem 5rem;
             min-height: 100vh;
             flex: 1;
         }
@@ -181,11 +178,6 @@
 
         .btn:hover {
             background-color: var(--primary-dark);
-        }
-
-        .btn:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
         }
 
         /* Car Details Content */
@@ -477,7 +469,7 @@
 
         @media (max-width: 768px) {
             .car-details {
-                padding: 80px 1rem 3rem;
+                padding: 1rem 1rem 3rem;
             }
             
             .car-images img {
@@ -693,13 +685,14 @@
                 name: "Maruti Suzuki Swift",
                 category: "economy",
                 price: 1499,
-                image: "https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                image: "data:image/jpeg;base64,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",
                 year: 2023,
                 fuel: "Petrol",
                 transmission: "Manual",
                 seats: 5,
                 features: ["Air Conditioning", "Power Steering", "Music System"],
-                description: "The Maruti Suzuki Swift is a fuel-efficient and reliable car for city commuting."
+                description: "The Maruti Suzuki Swift is a fuel-efficient and reliable car for city commuting.",
+                badge: "Economy"
             },
             {
                 id: 6,
@@ -712,7 +705,36 @@
                 transmission: "Automatic",
                 seats: 5,
                 features: ["Leather Seats", "Premium Sound", "Panoramic Sunroof", "Advanced Safety"],
-                description: "The Mercedes-Benz E-Class offers unparalleled luxury and cutting-edge technology."
+                description: "The Mercedes-Benz E-Class offers unparalleled luxury and cutting-edge technology.",
+                badge: "Luxury"
+            },
+            {
+                id: 7,
+                name: "BMW X3",
+                category: "luxury",
+                price: 5999,
+                image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                year: 2023,
+                fuel: "Petrol",
+                transmission: "Automatic",
+                seats: 5,
+                features: ["Leather Interior", "Navigation", "Heated Seats", "Premium Audio"],
+                description: "The BMW X3 delivers exceptional performance with luxury comfort for discerning drivers.",
+                badge: "Premium"
+            },
+            {
+                id: 8,
+                name: "Tata Nexon",
+                category: "compact",
+                price: 1899,
+                image: "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                year: 2023,
+                fuel: "Petrol",
+                transmission: "Automatic",
+                seats: 5,
+                features: ["Touchscreen", "Reverse Camera", "Automatic Climate Control"],
+                description: "The Tata Nexon offers modern features and safety in a compact SUV package.",
+                badge: "Safe Choice"
             }
         ];
 
