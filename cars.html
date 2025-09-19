@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cars - CarRent</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* CSS Variables */
         :root {
@@ -477,8 +478,8 @@
                     </div>
                     <div class="filter-group">
                         <label for="price-filter">Max Price per Day:</label>
-                        <input type="range" id="price-filter" min="2000" max="5000" value="2500">
-                        <span id="price-value">₹2500</span>
+                        <input type="range" id="price-filter" min="2000" max="10000" value="5000" step="500">
+                        <span id="price-value">₹5000</span>
                     </div>
                     <button id="reset-filters" class="btn btn-secondary">Reset Filters</button>
                 </div>
@@ -498,7 +499,7 @@
         </section>
     </main>
 
-    <footer class="footer">
+    <footer class="footer" id="footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
@@ -510,7 +511,7 @@
                     <ul>
                         <li><a href="cars.html">Cars</a></li>
                         <li><a href="login.html">Login</a></li>
-                        <li><a href="index.html">Register</a></li>
+                        <li><a href="register.html">Register</a></li>
                     </ul>
                 </div>
                <div class="footer-section">
@@ -526,13 +527,13 @@
     </footer>
 
     <script>
-        // Car data
+        // Car data with realistic Indian pricing
         const cars = [
             {
                 id: 1,
                 name: "Toyota Camry",
                 category: "sedan",
-                price: 89,
+                price: 2499,
                 image: "https://images.unsplash.com/photo-1542362567-b07e54358753?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
                 year: 2023,
                 fuel: "Petrol",
@@ -543,42 +544,68 @@
             },
             {
                 id: 2,
-                name: "Honda Civic",
+                name: "Honda City",
                 category: "compact",
-                price: 75,
+                price: 1999,
                 image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
                 year: 2022,
                 fuel: "Petrol",
                 transmission: "Automatic",
                 seats: 5,
                 features: ["Air Conditioning", "Bluetooth", "Cruise Control"],
-                description: "The Honda Civic offers a perfect blend of style, efficiency, and performance."
+                description: "The Honda City offers a perfect blend of style, efficiency, and performance."
             },
             {
                 id: 3,
-                name: "BMW X5",
+                name: "Toyota Fortuner",
                 category: "suv",
-                price: 129,
+                price: 4499,
                 image: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
                 year: 2023,
-                fuel: "Petrol",
+                fuel: "Diesel",
                 transmission: "Automatic",
                 seats: 7,
                 features: ["Leather Seats", "Premium Sound", "Panoramic Sunroof", "Navigation"],
-                description: "The BMW X5 combines luxury with performance for an exceptional driving experience."
+                description: "The Toyota Fortuner combines luxury with performance for an exceptional driving experience."
             },
             {
                 id: 4,
-                name: "Ford Mustang",
-                category: "sports",
-                price: 149,
-                image: "https://images.unsplash.com/photo-1549399542-7e82138d0d5d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                name: "Hyundai Creta",
+                category: "suv",
+                price: 2999,
+                image: "https://imgd-ct.aeplcdn.com/1056x660/n/cw/ec/41564/hyundai-creta-right-front-three-quarter9.jpeg?q=80",
                 year: 2023,
                 fuel: "Petrol",
                 transmission: "Automatic",
-                seats: 4,
-                features: ["Sport Mode", "Premium Sound", "Leather Seats", "Rear Camera"],
-                description: "The Ford Mustang is an iconic sports car with powerful performance and striking looks."
+                seats: 5,
+                features: ["Sunroof", "Touchscreen", "Rear Camera", "Apple CarPlay"],
+                description: "The Hyundai Creta is a stylish and feature-packed SUV perfect for urban driving."
+            },
+            {
+                id: 5,
+                name: "Maruti Suzuki Swift",
+                category: "economy",
+                price: 1499,
+                image: "https://imgd.aeplcdn.com/642x336/n/cw/ec/159099/swift-exterior-right-front-three-quarter-31.jpeg?isig=0&q=80",
+                year: 2023,
+                fuel: "Petrol",
+                transmission: "Manual",
+                seats: 5,
+                features: ["Air Conditioning", "Power Steering", "Music System"],
+                description: "The Maruti Suzuki Swift is a fuel-efficient and reliable car for city commuting."
+            },
+            {
+                id: 6,
+                name: "Mercedes-Benz E-Class",
+                category: "luxury",
+                price: 6999,
+                image: "https://i.pinimg.com/736x/e8/2d/18/e82d18032fff727f6755ed5045fb487d.jpg",
+                year: 2023,
+                fuel: "Petrol",
+                transmission: "Automatic",
+                seats: 5,
+                features: ["Leather Seats", "Premium Sound", "Panoramic Sunroof", "Advanced Safety"],
+                description: "The Mercedes-Benz E-Class offers unparalleled luxury and cutting-edge technology."
             }
         ];
 
@@ -593,6 +620,11 @@
 
             // Initialize price display
             priceValue.textContent = `₹${priceFilter.value}`;
+
+            // Format price with commas for Indian numbering system
+            function formatPrice(price) {
+                return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
 
             // Render cars
             function renderCars(carsToRender) {
@@ -629,8 +661,8 @@
                                     <span class="spec-label">Fuel</span>
                                 </div>
                             </div>
-                            <div class="car-price">₹${car.price}/day</div>
-                            <a href="car.html?id=${car.id}" class="car-action">View Details</a>
+                            <div class="car-price">₹${formatPrice(car.price)}/day</div>
+                            <a href="car-details.html?id=${car.id}" class="car-action">View Details</a>
                         </div>
                     `;
                     carsGrid.appendChild(carCard);
@@ -655,14 +687,14 @@
             categoryFilter.addEventListener('change', filterCars);
             
             priceFilter.addEventListener('input', function() {
-                priceValue.textContent = `₹${this.value}`;
+                priceValue.textContent = `₹${formatPrice(this.value)}`;
                 filterCars();
             });
             
             resetFilters.addEventListener('click', function() {
                 categoryFilter.value = '';
-                priceFilter.value = 2500;
-                priceValue.textContent = '₹2500';
+                priceFilter.value = 5000;
+                priceValue.textContent = '₹5,000';
                 filterCars();
             });
 
