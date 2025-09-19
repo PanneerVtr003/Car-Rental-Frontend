@@ -6,7 +6,7 @@
     <title>Car Rental Booking</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-      :root {
+        :root {
             --primary: #2563eb;
             --primary-dark: #1d4ed8;
             --secondary: #64748b;
@@ -187,7 +187,7 @@
 
         .footer-section ul li a {
             color: var(--gray);
-            text-decoration: none;
+            text-decoration: null;
             transition: var(--transition);
         }
 
@@ -347,7 +347,7 @@
             border-radius: 0.5rem;
             overflow: hidden;
             margin-bottom: 1.5rem;
-        }
+}
 
         .car-image img {
             width: 100%;
@@ -826,7 +826,7 @@
                     <ul>
                         <li><a href="cars.html">Cars</a></li>
                         <li><a href="login.html">Login</a></li>
-                        <li><a href="index.html">Register</a></li>
+                        <li><a href="register.html">Register</a></li>
                     </ul>
                 </div>
                <div class="footer-section">
@@ -842,13 +842,13 @@
     </footer>
     
     <script>
-        // Car data (same as in cars.html and car-details.html)
+        // Car data with realistic Indian pricing
         const cars = [
             {
                 id: 1,
                 name: "Toyota Camry",
                 category: "sedan",
-                price: 89,
+                price: 2499,
                 image: "https://images.unsplash.com/photo-1542362567-b07e54358753?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
                 year: 2023,
                 fuel: "Petrol",
@@ -859,42 +859,68 @@
             },
             {
                 id: 2,
-                name: "Honda Civic",
+                name: "Honda City",
                 category: "compact",
-                price: 75,
+                price: 1999,
                 image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
                 year: 2022,
                 fuel: "Petrol",
                 transmission: "Automatic",
                 seats: 5,
                 features: ["Air Conditioning", "Bluetooth", "Cruise Control"],
-                description: "The Honda Civic offers a perfect blend of style, efficiency, and performance."
+                description: "The Honda City offers a perfect blend of style, efficiency, and performance."
             },
             {
                 id: 3,
-                name: "BMW X5",
+                name: "Toyota Fortuner",
                 category: "suv",
-                price: 129,
+                price: 4499,
                 image: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
                 year: 2023,
-                fuel: "Petrol",
+                fuel: "Diesel",
                 transmission: "Automatic",
                 seats: 7,
                 features: ["Leather Seats", "Premium Sound", "Panoramic Sunroof", "Navigation"],
-                description: "The BMW X5 combines luxury with performance for an exceptional driving experience."
+                description: "The Toyota Fortuner combines luxury with performance for an exceptional driving experience."
             },
             {
                 id: 4,
-                name: "Ford Mustang",
-                category: "sports",
-                price: 149,
-                image: "https://images.unsplash.com/photo-1549399542-7e82138d0d5d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                name: "Hyundai Creta",
+                category: "suv",
+                price: 2999,
+                image: "https://images.unsplash.com/photo-1569173413094-6b609b2d3fe5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
                 year: 2023,
                 fuel: "Petrol",
                 transmission: "Automatic",
-                seats: 4,
-                features: ["Sport Mode", "Premium Sound", "Leather Seats", "Rear Camera"],
-                description: "The Ford Mustang is an iconic sports car with powerful performance and striking looks."
+                seats: 5,
+                features: ["Sunroof", "Touchscreen", "Rear Camera", "Apple CarPlay"],
+                description: "The Hyundai Creta is a stylish and feature-packed SUV perfect for urban driving."
+            },
+            {
+                id: 5,
+                name: "Maruti Suzuki Swift",
+                category: "economy",
+                price: 1499,
+                image: "https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                year: 2023,
+                fuel: "Petrol",
+                transmission: "Manual",
+                seats: 5,
+                features: ["Air Conditioning", "Power Steering", "Music System"],
+                description: "The Maruti Suzuki Swift is a fuel-efficient and reliable car for city commuting."
+            },
+            {
+                id: 6,
+                name: "Mercedes-Benz E-Class",
+                category: "luxury",
+                price: 6999,
+                image: "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                year: 2023,
+                fuel: "Petrol",
+                transmission: "Automatic",
+                seats: 5,
+                features: ["Leather Seats", "Premium Sound", "Panoramic Sunroof", "Advanced Safety"],
+                description: "The Mercedes-Benz E-Class offers unparalleled luxury and cutting-edge technology."
             }
         ];
 
@@ -912,12 +938,17 @@
                 return;
             }
             
+            // Format price with commas for Indian numbering system
+            function formatPrice(price) {
+                return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
+            
             // Display car details in booking page
             document.getElementById("booking-car-image").src = car.image;
             document.getElementById("booking-car-image").alt = car.name;
             document.getElementById("booking-car-name").textContent = car.name;
-            document.getElementById("booking-car-price").textContent = `₹${car.price}/day`;
-            document.getElementById("dailyRate").textContent = `₹${car.price}.00`;
+            document.getElementById("booking-car-price").textContent = `₹${formatPrice(car.price)}/day`;
+            document.getElementById("dailyRate").textContent = `₹${formatPrice(car.price)}.00`;
             
             // Set car specs
             const carSpecsElement = document.getElementById("booking-car-specs");
@@ -1064,7 +1095,7 @@
                                 <tr><td><strong>Return Date:</strong></td><td>${new Date(formData.returnDate).toLocaleDateString()}</td></tr>
                                 <tr><td><strong>Pickup Location:</strong></td><td>${formData.location}</td></tr>
                                 <tr><td><strong>Rental Duration:</strong></td><td>${formData.rentalDays} days</td></tr>
-                                <tr><td><strong>Total Amount:</strong></td><td>$${formData.totalAmount.toFixed(2)}</td></tr>
+                                <tr><td><strong>Total Amount:</strong></td><td>₹${formData.totalAmount.toFixed(2)}</td></tr>
                             </table>
                             ${formData.requests ? `<h3>Special Requests</h3><p>${formData.requests}</p>` : ""}
                             <p>Thank you,<br>The CarRent Team</p>
