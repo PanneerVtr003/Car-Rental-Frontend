@@ -959,7 +959,7 @@
         ];
 
     // Backend API base URL
-    const API_BASE_URL = 'https://car-rental-backend-bhbo.onrender.com';
+    const API_BASE_URL = 'http://localhost:5001';
 
     document.addEventListener("DOMContentLoaded", () => {
         // Get car ID from URL parameters
@@ -1046,86 +1046,142 @@
         document.getElementById("returnDate").addEventListener("change", updateBookingSummary);
 
         // Submit booking form
-        bookingForm.addEventListener("submit", async e => {
-            e.preventDefault();
+       const API_BASE_URL = 'http://localhost:5002';
+       // Submit booking form
+bookingForm.addEventListener("submit", async e => {
+    e.preventDefault();
 
-            const pickupDate = document.getElementById("pickupDate").value;
-            const returnDate = document.getElementById("returnDate").value;
-            const rentalDays = Math.ceil((new Date(returnDate) - new Date(pickupDate)) / (1000 * 60 * 60 * 24));
-            const totalAmount = parseFloat(document.getElementById("totalAmount").textContent.replace("₹", ""));
+    const pickupDate = document.getElementById("pickupDate").value;
+    const returnDate = document.getElementById("returnDate").value;
+    
+    // Validate dates
+    if (!pickupDate || !returnDate) {
+        alert("Please select both pickup and return dates");
+        return;
+    }
 
-            const formData = {
-                name: document.getElementById("fullName").value,
-                email: document.getElementById("email").value,
-                phone: document.getElementById("phone").value,
-                pickupDate,
-                returnDate,
-                location: document.getElementById("pickupLocation").value,
-                requests: document.getElementById("specialRequests").value,
-                carModel: car.name,
-                carId: car.id,
-                dailyRate: car.price,
-                rentalDays,
-                totalAmount
-            };
+    const rentalDays = Math.ceil((new Date(returnDate) - new Date(pickupDate)) / (1000 * 60 * 60 * 24));
+    if (rentalDays <= 0) {
+        alert("Return date must be after pickup date");
+        return;
+    }
 
-            const submitBtn = bookingForm.querySelector("button");
-            submitBtn.textContent = "Processing...";
-            submitBtn.disabled = true;
+    const totalAmount = parseFloat(document.getElementById("totalAmount").textContent.replace("₹", ""));
+    if (isNaN(totalAmount) || totalAmount <= 0) {
+        alert("Please calculate the rental amount first");
+        return;
+    }
 
-            try {
-                // Send booking data to backend API
-                const response = await fetch(`${API_BASE_URL}/api/bookings`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(formData)
-                });
+    const formData = {
+        name: document.getElementById("fullName").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        phone: document.getElementById("phone").value.trim(),
+        carModel: car.name,
+        carId: car.id,
+        pickupDate: pickupDate,
+        returnDate: returnDate,
+        location: document.getElementById("pickupLocation").value,
+        requests: document.getElementById("specialRequests").value.trim(),
+        dailyRate: car.price,
+        rentalDays: rentalDays,
+        totalAmount: totalAmount
+    };
 
-                if (!response.ok) {
-                    throw new Error('Failed to submit booking');
-                }
+    // Validate form data
+    if (!formData.name || !formData.email || !formData.phone || !formData.location) {
+        alert("Please fill in all required fields");
+        return;
+    }
 
-                const bookingResult = await response.json();
-                const bookingId = bookingResult.bookingId || "CR" + Math.floor(100000 + Math.random() * 900000);
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+        alert("Please enter a valid email address");
+        return;
+    }
 
-                modalBookingDetails.innerHTML = `
-                    <strong>Booking ID:</strong> ${bookingId}<br>
-                    <strong>Name:</strong> ${formData.name}<br>
-                    <strong>Car:</strong> ${formData.carModel}<br>
-                    <strong>Pickup:</strong> ${new Date(formData.pickupDate).toLocaleDateString()} at ${formData.location}<br>
-                    <strong>Return:</strong> ${new Date(formData.returnDate).toLocaleDateString()}<br>
-                    <strong>Duration:</strong> ${formData.rentalDays} days<br>
-                    <strong>Total:</strong> ₹${formData.totalAmount.toFixed(2)}<br>
-                    <strong>Contact:</strong> ${formData.email}, ${formData.phone}
-                `;
+    // Phone validation
+    const phoneRegex = /^[0-9]{10}$/;
+    if (!phoneRegex.test(formData.phone.replace(/\D/g, ''))) {
+        alert("Please enter a valid 10-digit phone number");
+        return;
+    }
 
-                generateEmailContent(bookingId, formData);
-                modal.classList.add("active");
+    const submitBtn = bookingForm.querySelector("button");
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = "Processing...";
+    submitBtn.disabled = true;
 
-                bookingForm.reset();
-                document.getElementById("rentalPeriod").textContent = "0 days";
-                document.getElementById("taxAmount").textContent = "₹0.00";
-                document.getElementById("totalAmount").textContent = "₹0.00";
-            } catch (err) {
-                console.error('Booking error:', err);
-                alert("Failed to complete booking. Please try again.");
-            } finally {
-                submitBtn.textContent = "Complete Booking";
-                submitBtn.disabled = false;
-            }
+    try {
+        console.log("Submitting booking:", formData);
+        
+        const response = await fetch(`${API_BASE_URL}/api/bookings`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(formData)
         });
 
-        modalOkBtn.addEventListener("click", () => modal.classList.remove("active"));
-        viewEmailBtn.addEventListener("click", () => {
-            modal.classList.remove("active");
-            tabs.forEach(t => t.classList.remove("active"));
-            document.querySelector('[data-tab="email"]').classList.add("active");
-            tabContents.forEach(c => c.classList.remove("active"));
-            document.getElementById("emailTab").classList.add("active");
-        });
+        const result = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(result.message || `HTTP ${response.status}`);
+        }
 
+        if (!result.success) {
+            throw new Error(result.message || "Booking failed");
+        }
+
+        const bookingId = result.bookingId;
+
+        // Display booking confirmation
+        modalBookingDetails.innerHTML = `
+            <div style="text-align: left;">
+                <p><strong>✅ Booking Confirmed!</strong></p>
+                <p><strong>Booking ID:</strong> ${bookingId}</p>
+                <p><strong>Name:</strong> ${formData.name}</p>
+                <p><strong>Car:</strong> ${formData.carModel}</p>
+                <p><strong>Pickup:</strong> ${new Date(formData.pickupDate).toLocaleDateString()} at ${formData.location}</p>
+                <p><strong>Return:</strong> ${new Date(formData.returnDate).toLocaleDateString()}</p>
+                <p><strong>Duration:</strong> ${formData.rentalDays} days</p>
+                <p><strong>Total Amount:</strong> ₹${formData.totalAmount.toFixed(2)}</p>
+                <p><strong>Email:</strong> ${formData.email}</p>
+                <p><strong>Phone:</strong> ${formData.phone}</p>
+                ${formData.requests ? `<p><strong>Special Requests:</strong> ${formData.requests}</p>` : ''}
+                <p style="color: #10b981; margin-top: 15px; font-weight: bold;">
+                    Confirmation email has been sent to ${formData.email}
+                </p>
+            </div>
+        `;
+
+        generateEmailContent(bookingId, formData);
+        modal.classList.add("active");
+        document.body.classList.add("no-scroll");
+
+        // Reset form and summary
+        bookingForm.reset();
+        document.getElementById("rentalPeriod").textContent = "0 days";
+        document.getElementById("taxAmount").textContent = "₹0.00";
+        document.getElementById("totalAmount").textContent = "₹0.00";
+
+    } catch (err) {
+        console.error('Booking error:', err);
+        
+        let errorMessage = "Failed to complete booking. Please try again.";
+        if (err.message.includes("NetworkError") || err.message.includes("Failed to fetch")) {
+            errorMessage = "Unable to connect to server. Please check your internet connection.";
+        } else if (err.message.includes("Validation failed")) {
+            errorMessage = "Please check your information and try again.";
+        }
+        
+        alert(errorMessage);
+    } finally {
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+    }
+});
         // Generate email preview
         function generateEmailContent(bookingId, formData) {
             emailContent.innerHTML = `
